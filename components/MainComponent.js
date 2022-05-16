@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
+
 import Home from './HomeComponent';
 import Directory from './DirectoryComponent';
 import About from './AboutComponent';
 import Contact from './ContactComponent'
-
 import CampsiteInfo from './CampsiteInfoComponent';
-// import About from './AboutComponent';
-// import Contact from './ContactComponent';
 
 import Constants from 'expo-constants';
 import { View, Platform } from 'react-native';
