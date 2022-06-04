@@ -64,7 +64,7 @@ const ReservationNavigator = createStackNavigator(
             headerLeft: <Icon
                 name='tree'
                 type='font-awesome'
-                // iconStyle={styles.stackIcon}
+                iconStyle={styles.stackIcon}
                 onPress={() => navigation.toggleDrawer()}
             />
         })
@@ -86,7 +86,7 @@ const DirectoryNavigator = createStackNavigator(
                 headerLeft: <Icon
                     name='list'
                     type='font-awesome'
-                    // iconStyle={styles.stackIcon}
+                    iconStyle={styles.stackIcon}
                     onPress={() => navigation.toggleDrawer()}
                 />
             })
@@ -126,7 +126,7 @@ const HomeNavigator = createStackNavigator(
             headerLeft: <Icon
                 name='home'
                 type='font-awesome'
-                // iconStyle={styles.stackIcon}
+                iconStyle={styles.stackIcon}
                 onPress={() => navigation.toggleDrawer()}
             />
         })
@@ -149,7 +149,7 @@ const AboutNavigator = createStackNavigator(
             headerLeft: <Icon
                 name='info-circle'
                 type='font-awesome'
-                // iconStyle={styles.stackIcon}
+                iconStyle={styles.stackIcon}
                 onPress={() => navigation.toggleDrawer()}
             />
         })
@@ -172,7 +172,7 @@ const ContactNavigator = createStackNavigator(
             headerLeft: <Icon
                 name='address-card'
                 type='font-awesome'
-                // iconStyle={styles.stackIcon}
+                iconStyle={styles.stackIcon}
                 onPress={() => navigation.toggleDrawer()}
             />
         })
@@ -336,12 +336,14 @@ class Main extends Component {
         this.props.fetchPromotions();
         this.props.fetchPartners();
 
-        NetInfo.fetch().then(connectionInfo => {
-            (Platform.OS === 'ios')
-                ? Alert.alert('Initial Network Connectivity Type:', connectionInfo.type)
-                : ToastAndroid.show('Initial Network Connectivity Type: ' +
-                    connectionInfo.type, ToastAndroid.LONG);
-        });
+        this.showNetInfo();
+
+        // NetInfo.fetch().then(connectionInfo => {
+        //     (Platform.OS === 'ios')
+        //         ? Alert.alert('Initial Network Connectivity Type:', connectionInfo.type)
+        //         : ToastAndroid.show('Initial Network Connectivity Type: ' +
+        //             connectionInfo.type, ToastAndroid.LONG);
+        // });
 
         this.unsubscribeNetInfo = NetInfo.addEventListener(connectionInfo => {
             this.handleConnectivityChange(connectionInfo);
@@ -351,6 +353,16 @@ class Main extends Component {
     componentWillUnmount() {
         this.unsubscribeNetInfo();
     }
+
+    showNetInfo = async () => {
+        const connectionInfo = await NetInfo.fetch();
+        Platform.OS === 'ios'
+          ? Alert.alert('Initial Network Connectivity Type:', connectionInfo.type)
+          : ToastAndroid.show(
+              'Initial Network Connectivity Type: ' + connectionInfo.type,
+              ToastAndroid.LONG
+            );
+    };
 
     handleConnectivityChange = connectionInfo => {
         let connectionMsg = 'You are now connected to an active network.';
